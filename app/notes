@@ -1,0 +1,36 @@
+#to connect from WSL2 to pgAdmin in W11
+#source: https://serverfault.com/questions/1041981/how-can-i-connect-to-postgres-running-on-the-windows-host-from-inside-wsl2
+#this is the fast test command for WSL2 
+#psql --host=172.29.64.1 --port=5432 --user=postgres
+#in WSL2 run this 
+#ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+#and we get 172.29.76.109
+#in W11 run this
+#iconfig
+#and at the end we get WSL IP 172.29.64.1
+#in postgres file
+#pg_hba.conf
+#add
+#host  all    all    172.29.76.0/24     scram-sha-256
+#in firewall create new rule
+#Protocol type TCP
+#Port 5432
+#Scope
+#Local ip adresses 172.29.64.0/24
+#in the script replace host='localhost' with host='172.29.64.1'
+
+#this was in main for use before we started using databases
+# my_posts = [
+#     {"title": "title of post 1", "content": "content of post 1", "id": 1},
+#     {"title": "favorite foods", "content": "I like pizza", "id": 2}
+# ]
+
+# def find_post(id):
+#     for p in my_posts:
+#         if p["id"] == id:
+#             return p
+
+# def find_index_post(id):
+#     for i,p in enumerate(my_posts):
+#         if p['id'] == id:
+#             return i
