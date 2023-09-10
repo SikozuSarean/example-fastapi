@@ -2,12 +2,15 @@
 #source: https://serverfault.com/questions/1041981/how-can-i-connect-to-postgres-running-on-the-windows-host-from-inside-wsl2
 #this is the fast test command for WSL2 
 #psql --host=172.29.64.1 --port=5432 --user=postgres
+
 #in WSL2 run this 
 #ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
 #and we get 172.29.76.109
+
 #in W11 run this
 #iconfig
 #and at the end we get WSL IP 172.29.64.1
+
 #in postgres file
 #pg_hba.conf
 #add

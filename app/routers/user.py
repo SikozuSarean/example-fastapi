@@ -11,8 +11,13 @@ router = APIRouter(
 )
 @router.post("/", status_code=status.HTTP_201_CREATED,response_model=schemas.UserOut)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-
     #hash the pwd - user..password
+    
+    user_extracted = user.email.split('@')[0]
+    if not len(user_extracted) > 5:
+        raise HTTPException(status_code=status.HTTP_406_NOT_ACCEPTABLE,
+                            detail=f"User {user_extracted} has les than 5 characters")
+    
     hashed_password = utils.hash(user.password)
     user.password = hashed_password
 
@@ -20,7 +25,6 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-
     return new_user
 
 @router.get("/{id}", response_model=schemas.UserOut)
