@@ -1,0 +1,33 @@
+version: '3'
+services:
+  api:
+    #remember to save the imake with the name like this: my_docker_username/fastapi
+    #then use docker push my_docker_username/fastapi:tagname
+    image: my_docker_username/fastapi-app
+    depends_on:
+    - postgres
+    ports:
+    - 80:8000
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECTER_KEY=${SECTER_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_EXPIRE__MINUTES=${ACCESS_TOKEN_EXPIRE__MINUTES}
+      - "5432:5432"
+  postgres:
+    image: postgres
+    enviroment:
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_PASSWORD}
+
+    volumes:
+      - postgres-db:/var/libpostgresql/data
+
+volumes:
+  postgres-db:
+
+#to up it docker-compose -f docker-compose-prod.yaml up -d
